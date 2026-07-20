@@ -33,7 +33,6 @@
     padding:env(safe-area-inset-top) env(safe-area-inset-right) calc(92px + env(safe-area-inset-bottom)) env(safe-area-inset-left);
     -webkit-font-smoothing:antialiased;
   }
-  /* ---------- Header ---------- */
   .topbar{
     background:linear-gradient(120deg,#060912 0%,#0f1c38 45%,#0a1428 100%);
     border-bottom:2px solid var(--blue-deep);
@@ -51,7 +50,6 @@
   }
   .brand-sub{color:var(--blue-bright);font-size:11px;font-weight:700;font-style:italic;
     letter-spacing:1.5px;margin-top:6px;text-transform:uppercase}
-  /* ---------- Tabs ---------- */
   .tabs{display:flex;gap:8px;padding:14px 14px 0;position:sticky;top:0;z-index:20;background:var(--bg)}
   .tab{flex:1;text-align:center;padding:11px 6px;border-radius:12px;
     font-weight:800;font-size:13px;letter-spacing:.5px;font-style:italic;text-transform:uppercase;
@@ -60,7 +58,6 @@
   .view{display:none;padding:14px}
   .view.active{display:block}
 
-  /* ---------- Day picker ---------- */
   .picker{display:flex;gap:10px;margin-bottom:14px}
   .day-btn{flex:1;padding:14px 12px;border-radius:14px;border:1px solid var(--line);
     background:var(--panel-2);color:var(--ink);text-align:left;cursor:pointer;font-family:inherit}
@@ -70,7 +67,13 @@
   .day-btn .d-name{font-size:17px;font-weight:900;font-style:italic;margin-top:2px}
   .day-btn.active .d-name{color:var(--blue-bright)}
 
-  /* ---------- Cards ---------- */
+  .edit-banner{display:none;background:linear-gradient(90deg,#3a2a08,#241a05);
+    border:1px solid #7a5a14;border-radius:12px;padding:11px 13px;margin-bottom:14px;
+    font-size:13px;color:var(--warm);font-weight:700;align-items:center;justify-content:space-between;gap:10px}
+  .edit-banner.show{display:flex}
+  .edit-banner button{background:transparent;border:1px solid #7a5a14;color:var(--warm);
+    border-radius:8px;padding:6px 10px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit}
+
   .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;
     padding:14px;margin-bottom:14px}
   .card-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
@@ -88,7 +91,6 @@
     box-shadow:0 0 0 2px rgba(43,143,255,.25)}
   .fld input[type=date]{color-scheme:dark}
 
-  /* ---------- Exercise blocks ---------- */
   .ex{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:var(--panel-2)}
   .ex-top{display:flex;align-items:center;gap:8px;padding:10px 12px;
     background:linear-gradient(90deg,#0e1a33,#0b1424)}
@@ -134,7 +136,6 @@
     letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
   .rule .r-txt{font-size:13px;color:var(--muted);line-height:1.45}
 
-  /* ---------- Save bar ---------- */
   .save-bar{position:fixed;left:0;right:0;bottom:0;z-index:30;
     padding:12px 14px calc(12px + env(safe-area-inset-bottom));
     background:linear-gradient(0deg,var(--bg) 75%,transparent);display:flex;gap:10px}
@@ -144,7 +145,6 @@
     box-shadow:0 6px 20px rgba(43,143,255,.35)}
   .btn-ghost{flex:0 0 auto;background:var(--panel);color:var(--muted);border:1px solid var(--line)}
 
-  /* ---------- History ---------- */
   .stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
   .stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px 8px;text-align:center}
   .stat .s-num{font-size:22px;font-weight:900;color:var(--blue-bright);font-style:italic}
@@ -161,6 +161,7 @@
   .hist-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
   .hist-day{font-weight:900;font-style:italic;color:var(--blue-bright);font-size:15px}
   .hist-date{font-size:12px;color:var(--muted);margin-top:2px}
+  .hist-actions{display:flex;gap:6px;flex:0 0 auto}
   .hist-meta{font-size:11px;color:var(--muted);margin-top:6px}
   .hist-ex{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:6px 0;
     border-top:1px dashed var(--line)}
@@ -169,12 +170,13 @@
   .hist-total{display:flex;justify-content:space-between;font-size:12px;font-weight:900;
     padding-top:8px;border-top:2px solid var(--line);margin-top:2px;color:var(--blue-bright)}
   .hist-note{font-size:12px;color:var(--muted);margin-top:8px;font-style:italic}
-  .del{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;
+  .h-btn{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;
     padding:6px 10px;font-size:11px;cursor:pointer;font-family:inherit}
+  .h-btn.edit{border-color:var(--blue);color:var(--blue-bright)}
   .empty{text-align:center;color:var(--muted);padding:50px 20px;font-size:14px}
   .empty .big{font-size:40px;margin-bottom:12px;opacity:.5}
 
-  /* ---------- Eigener Bestätigungsdialog (iOS-PWA-sicher) ---------- */
+  /* ---------- Dialoge / Overlays ---------- */
   .modal-bg{position:fixed;inset:0;background:rgba(4,8,16,.7);z-index:60;
     display:none;align-items:center;justify-content:center;padding:24px;
     backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
@@ -188,6 +190,34 @@
     font-size:14px;cursor:pointer;font-family:inherit}
   .modal .m-cancel{background:var(--panel-2);color:var(--ink);border:1px solid var(--line)}
   .modal .m-danger{background:var(--danger);color:#fff}
+
+  /* ---------- Geschafft-Screen ---------- */
+  .done-bg{position:fixed;inset:0;background:rgba(4,8,16,.88);z-index:65;display:none;
+    align-items:center;justify-content:center;padding:20px;
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .done-bg.show{display:flex}
+  .done{background:linear-gradient(160deg,#101c36,#0b1322);border:1px solid var(--blue-deep);
+    border-radius:22px;padding:26px 22px;max-width:380px;width:100%;
+    box-shadow:0 24px 80px rgba(43,143,255,.25);max-height:85vh;overflow-y:auto}
+  .done .d-emoji{font-size:44px;text-align:center;margin-bottom:6px}
+  .done .d-title{font-weight:900;font-style:italic;font-size:24px;text-align:center;
+    background:linear-gradient(180deg,#fff,#a9c6ff);-webkit-background-clip:text;
+    background-clip:text;color:transparent;margin-bottom:2px}
+  .done .d-sub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:18px}
+  .d-stat{display:flex;justify-content:space-between;align-items:center;
+    padding:11px 4px;border-bottom:1px dashed var(--line);font-size:14px}
+  .d-stat .k{color:var(--muted)}
+  .d-stat .v{font-weight:900;color:var(--blue-bright);font-variant-numeric:tabular-nums;text-align:right}
+  .d-stat .v.up{color:var(--good)}
+  .d-pr{background:linear-gradient(90deg,#1d2a0e,#131c08);border:1px solid #3f5a14;
+    border-radius:12px;padding:11px 13px;margin-top:12px;font-size:13px;line-height:1.5}
+  .d-pr .pr-t{font-weight:900;color:#a8e063;font-style:italic;font-size:12px;
+    text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+  .d-pr .pr-line{color:var(--ink)}
+  .done .d-close{width:100%;margin-top:18px;padding:15px;border-radius:14px;border:none;
+    background:linear-gradient(135deg,var(--blue),var(--blue-deep));color:#fff;
+    font-weight:900;font-style:italic;font-size:16px;cursor:pointer;font-family:inherit;
+    box-shadow:0 6px 20px rgba(43,143,255,.35)}
 
   .toast{position:fixed;left:50%;bottom:104px;transform:translateX(-50%) translateY(20px);
     background:var(--good);color:#04140a;font-weight:800;padding:12px 22px;border-radius:30px;
@@ -211,7 +241,12 @@
 <!-- ============ LOG VIEW ============ -->
 <div class="view active" id="view-log">
 
-  <div class="picker">
+  <div class="edit-banner" id="edit-banner">
+    <span id="edit-banner-txt">✏️ Einheit wird bearbeitet</span>
+    <button id="edit-cancel" type="button">Abbrechen</button>
+  </div>
+
+  <div class="picker" id="day-picker">
     <button class="day-btn active" data-day="1">
       <div class="d-lbl">Einheit</div><div class="d-name">DAY 1</div>
     </button>
@@ -237,7 +272,7 @@
 
   <div id="ex-container"></div>
 
-  <button class="add-ex" id="btn-add-ex">+ Übung hinzufügen</button>
+  <button class="add-ex" id="btn-add-ex" type="button">+ Übung hinzufügen</button>
 
   <div class="card">
     <div class="card-head"><span class="bar"></span><h2>Kurznotiz / Fokus</h2></div>
@@ -261,17 +296,17 @@
     <div class="stat"><div class="s-num" id="st-vol">0</div><div class="s-lbl">Volumen ges. (t)</div></div>
   </div>
   <div class="export-row">
-    <button class="exp-btn solid" id="btn-csv">⬇ CSV (Excel/Sheets)</button>
-    <button class="exp-btn" id="btn-backup">⬇ Backup</button>
-    <button class="exp-btn" id="btn-import">⬆ Import</button>
+    <button class="exp-btn solid" id="btn-csv" type="button">⬇ CSV (Excel/Sheets)</button>
+    <button class="exp-btn" id="btn-backup" type="button">⬇ Backup</button>
+    <button class="exp-btn" id="btn-import" type="button">⬆ Import</button>
     <input type="file" id="import-file" accept=".json,application/json">
   </div>
   <div id="hist-list"></div>
 </div>
 
 <div class="save-bar" id="save-bar">
-  <button class="btn btn-primary" id="btn-save">Einheit speichern</button>
-  <button class="btn btn-ghost" id="btn-clear">Reset</button>
+  <button class="btn btn-primary" id="btn-save" type="button">Einheit speichern</button>
+  <button class="btn btn-ghost" id="btn-clear" type="button">Reset</button>
 </div>
 
 <!-- Bestätigungsdialog -->
@@ -280,9 +315,24 @@
     <div class="m-title" id="m-title">Löschen?</div>
     <div class="m-txt" id="m-txt"></div>
     <div class="m-row">
-      <button class="m-btn m-cancel" id="m-cancel">Abbrechen</button>
-      <button class="m-btn m-danger" id="m-ok">Löschen</button>
+      <button class="m-btn m-cancel" id="m-cancel" type="button">Abbrechen</button>
+      <button class="m-btn m-danger" id="m-ok" type="button">Löschen</button>
     </div>
+  </div>
+</div>
+
+<!-- Geschafft-Screen -->
+<div class="done-bg" id="done-bg">
+  <div class="done">
+    <div class="d-emoji" id="d-emoji">💪</div>
+    <div class="d-title">Geschafft!</div>
+    <div class="d-sub" id="d-sub"></div>
+    <div id="d-stats"></div>
+    <div class="d-pr" id="d-pr" style="display:none">
+      <div class="pr-t">🏆 Neue Bestleistung</div>
+      <div class="pr-line" id="d-pr-lines"></div>
+    </div>
+    <button class="d-close" id="d-close" type="button">Weiter so! 🔥</button>
   </div>
 </div>
 
@@ -318,6 +368,7 @@ const saveJSON = (k,v) => localStorage.setItem(k, JSON.stringify(v));
 
 let templates  = loadJSON(TPL_KEY, null) || JSON.parse(JSON.stringify(DEFAULT_TPL));
 let currentDay = "1";
+let editing    = null;   // Kopie des Eintrags, der gerade bearbeitet wird
 
 /* ---- einmalige Übernahme alter v1-Einträge ---- */
 (function migrate(){
@@ -348,14 +399,25 @@ function weekKey(iso){
 }
 const num = v => { const x=parseFloat(String(v).replace(",", ".")); return isNaN(x)?0:x; };
 const exVolume = s => num(s.kg1)*num(s.wdh1) + num(s.kg2)*num(s.wdh2);
+const sessionVolume = e => e.sets.reduce((x,s)=>x+exVolume(s),0);
+const maxKg = s => Math.max(num(s.kg1), num(s.kg2));
 
-/* ============ Eigener Bestätigungsdialog (statt confirm) ============ */
+/* letzte Einheit für einen Tag (nach Datum, dann id) */
+function lastEntryForDay(day, excludeId){
+  return loadLog()
+    .filter(e=>e.day===day && e.id!==excludeId)
+    .sort((a,b)=> (a.date===b.date ? a.id-b.id : (a.date<b.date?-1:1)))
+    .pop() || null;
+}
+
+/* ============ Bestätigungsdialog ============ */
 let modalResolve = null;
-function askConfirm(title, txt){
+function askConfirm(title, txt, okLabel){
   return new Promise(res=>{
     modalResolve = res;
     $("#m-title").textContent = title;
     $("#m-txt").textContent = txt;
+    $("#m-ok").textContent = okLabel || "Löschen";
     $("#modal-bg").classList.add("show");
   });
 }
@@ -364,15 +426,25 @@ $("#m-ok").addEventListener("click",()=>{ $("#modal-bg").classList.remove("show"
 $("#modal-bg").addEventListener("click",e=>{ if(e.target.id==="modal-bg"){ $("#modal-bg").classList.remove("show"); modalResolve&&modalResolve(false); } });
 
 /* ================= Exercise rendering ================= */
+function exerciseSource(){
+  return editing ? editing.sets : templates[currentDay];
+}
+function sourceName(ex){ return editing ? ex.name : ex.n; }
+
 function renderExercises(){
   const c = $("#ex-container"); c.innerHTML = "";
-  templates[currentDay].forEach((ex,i)=>{
+  const src = exerciseSource();
+  /* Vorbefüllung: letzte Einheit dieses Tages (nur im Neu-Modus) */
+  const prev = editing ? null : lastEntryForDay(currentDay);
+  src.forEach((ex,i)=>{
+    const name = sourceName(ex) || "";
+    const goal = ex.goal || "";
     c.insertAdjacentHTML("beforeend", `
       <div class="ex" data-i="${i}">
         <div class="ex-top">
           <span class="ex-num">${i+1}.</span>
-          <input class="ex-name-inp" value="${(ex.n||'').replace(/"/g,'&quot;')}" data-i="${i}" placeholder="Übung">
-          <input class="ex-goal-inp" value="${(ex.goal||'').replace(/"/g,'&quot;')}" data-i="${i}" placeholder="Ziel">
+          <input class="ex-name-inp" value="${name.replace(/"/g,'&quot;')}" data-i="${i}" placeholder="Übung">
+          <input class="ex-goal-inp" value="${goal.replace(/"/g,'&quot;')}" data-i="${i}" placeholder="Ziel">
           <button class="ex-del" data-i="${i}" title="Übung entfernen" type="button">✕</button>
         </div>
         ${setRow(i,"warm","Warm-Up")}
@@ -385,6 +457,27 @@ function renderExercises(){
       </div>`);
   });
   bindExerciseEvents();
+
+  /* Werte einsetzen */
+  src.forEach((ex,i)=>{
+    let vals = null;
+    if(editing){
+      vals = ex; // Eintrag bearbeiten: eigene Werte
+    } else if(prev){
+      const name = (sourceName(ex)||"").trim().toLowerCase();
+      vals = prev.sets.find(s=>(s.name||"").trim().toLowerCase()===name) || null;
+    }
+    if(vals){
+      setVal(i,"wkg",vals.wkg);   setVal(i,"wwdh",vals.wwdh);
+      setVal(i,"kg1",vals.kg1);   setVal(i,"wdh1",vals.wdh1);
+      setVal(i,"kg2",vals.kg2);   setVal(i,"wdh2",vals.wdh2);
+    }
+    updateVolume(i);
+  });
+}
+function setVal(i,f,v){
+  const inp = document.querySelector(`#ex-container input[data-ex="${i}"][data-f="${f}"]`);
+  if(inp) inp.value = v||"";
 }
 
 function setRow(i,which,label){
@@ -411,19 +504,32 @@ function setRow(i,which,label){
 
 function bindExerciseEvents(){
   document.querySelectorAll(".ex-name-inp").forEach(inp=>{
-    inp.addEventListener("input",()=>{ templates[currentDay][inp.dataset.i].n = inp.value; saveJSON(TPL_KEY,templates); });
+    inp.addEventListener("input",()=>{
+      const i = +inp.dataset.i;
+      if(editing){ editing.sets[i].name = inp.value; }
+      else { templates[currentDay][i].n = inp.value; saveJSON(TPL_KEY,templates); }
+    });
   });
   document.querySelectorAll(".ex-goal-inp").forEach(inp=>{
-    inp.addEventListener("input",()=>{ templates[currentDay][inp.dataset.i].goal = inp.value; saveJSON(TPL_KEY,templates); });
+    inp.addEventListener("input",()=>{
+      const i = +inp.dataset.i;
+      if(editing){ editing.sets[i].goal = inp.value; }
+      else { templates[currentDay][i].goal = inp.value; saveJSON(TPL_KEY,templates); }
+    });
   });
   document.querySelectorAll(".ex-del").forEach(b=>{
     b.addEventListener("click", async ()=>{
       const i = +b.dataset.i;
-      const name = templates[currentDay][i].n || "diese Übung";
-      const ok = await askConfirm("Übung entfernen?", `„${name}" wird aus ${PLANNAME()} entfernt. Bereits gespeicherte Einheiten bleiben unverändert.`);
+      const src = exerciseSource();
+      const name = (editing ? src[i].name : src[i].n) || "diese Übung";
+      const txt = editing
+        ? `„${name}" wird aus dieser Einheit entfernt.`
+        : `„${name}" wird aus ${PLANNAME()} entfernt. Bereits gespeicherte Einheiten bleiben unverändert.`;
+      const ok = await askConfirm("Übung entfernen?", txt);
       if(!ok) return;
-      templates[currentDay].splice(i,1);
-      saveJSON(TPL_KEY,templates); renderExercises();
+      src.splice(i,1);
+      if(!editing) saveJSON(TPL_KEY,templates);
+      renderExercises();
       toast("Übung entfernt ✓");
     });
   });
@@ -459,6 +565,7 @@ function updateVolume(i){
 /* ================= Day / Tabs ================= */
 document.querySelectorAll(".day-btn").forEach(b=>{
   b.addEventListener("click",()=>{
+    if(editing) return; // während Bearbeitung kein Tageswechsel
     document.querySelectorAll(".day-btn").forEach(x=>x.classList.remove("active"));
     b.classList.add("active");
     currentDay = b.dataset.day;
@@ -478,14 +585,69 @@ document.querySelectorAll(".tab").forEach(t=>{
 
 /* ================= Add exercise ================= */
 $("#btn-add-ex").addEventListener("click",()=>{
-  templates[currentDay].push({n:"", goal:"8–12"});
-  saveJSON(TPL_KEY,templates); renderExercises();
+  if(editing){ editing.sets.push({name:"", goal:"8–12", wkg:"",wwdh:"",kg1:"",wdh1:"",kg2:"",wdh2:""}); }
+  else { templates[currentDay].push({n:"", goal:"8–12"}); saveJSON(TPL_KEY,templates); }
+  renderExercises();
   const inps = document.querySelectorAll(".ex-name-inp");
   inps[inps.length-1].focus();
 });
 
+/* ================= Bearbeiten starten/abbrechen ================= */
+function startEdit(id){
+  const entry = loadLog().find(e=>e.id==id);
+  if(!entry) return;
+  editing = JSON.parse(JSON.stringify(entry)); // Arbeitskopie
+  currentDay = editing.day;
+  // UI
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+  document.querySelector('.tab[data-view="log"]').classList.add("active");
+  $("#view-log").classList.add("active");
+  $("#save-bar").style.display = "flex";
+  document.querySelectorAll(".day-btn").forEach(x=>{
+    x.classList.toggle("active", x.dataset.day===currentDay);
+    x.style.opacity = ".45";
+  });
+  $("#edit-banner").classList.add("show");
+  $("#edit-banner-txt").textContent = `✏️ ${editing.dayName} vom ${fmtDate(editing.date)} bearbeiten`;
+  $("#btn-save").textContent = "Änderungen speichern";
+  $("#f-date").value = editing.date || todayISO();
+  $("#f-weight").value = editing.weight || "";
+  $("#f-energy").value = editing.energy || "";
+  $("#f-note").value = editing.note || "";
+  renderExercises();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+function stopEdit(){
+  editing = null;
+  $("#edit-banner").classList.remove("show");
+  $("#btn-save").textContent = "Einheit speichern";
+  document.querySelectorAll(".day-btn").forEach(x=>x.style.opacity="1");
+  clearForm();
+  renderExercises();
+}
+$("#edit-cancel").addEventListener("click",stopEdit);
+
 /* ================= Save session ================= */
 $("#btn-save").addEventListener("click",()=>{
+  const src = exerciseSource();
+  const sets = src.map((ex,i)=>Object.assign(
+    {name:(editing?ex.name:ex.n)||("Übung "+(i+1)), goal:ex.goal||""}, readSets(i)));
+
+  if(editing){
+    /* bestehenden Eintrag aktualisieren */
+    const updated = {
+      id: editing.id, day: editing.day, dayName: editing.dayName,
+      date: $("#f-date").value || editing.date,
+      weight: $("#f-weight").value, energy: $("#f-energy").value,
+      note: $("#f-note").value, sets,
+    };
+    saveLog(loadLog().map(e=>e.id===editing.id ? updated : e));
+    stopEdit();
+    toast("Änderungen gespeichert ✓");
+    return;
+  }
+
   const entry = {
     id: Date.now(),
     day: currentDay, dayName: PLANNAME(),
@@ -493,20 +655,85 @@ $("#btn-save").addEventListener("click",()=>{
     weight: $("#f-weight").value,
     energy: $("#f-energy").value,
     note: $("#f-note").value,
-    sets: templates[currentDay].map((ex,i)=>Object.assign(
-      {name:ex.n||("Übung "+(i+1)), goal:ex.goal||""}, readSets(i))),
+    sets,
   };
+  /* Vergleichsdaten VOR dem Speichern erfassen */
+  const prev = lastEntryForDay(currentDay);
+  const prevMaxByEx = {};
+  loadLog().forEach(e=>e.sets.forEach(s=>{
+    const k = (s.name||"").trim().toLowerCase();
+    prevMaxByEx[k] = Math.max(prevMaxByEx[k]||0, maxKg(s));
+  }));
+
   const arr = loadLog(); arr.push(entry); saveLog(arr);
-  toast("Einheit gespeichert ✓");
   clearForm();
+  showDone(entry, prev, prevMaxByEx);
+  renderExercises(); // neu befüllen mit soeben gespeicherten Werten
 });
-$("#btn-clear").addEventListener("click",clearForm);
+$("#btn-clear").addEventListener("click",()=>{ if(editing){ stopEdit(); } else { clearForm(); renderExercises(); } });
 function clearForm(){
   $("#f-date").value = todayISO();
   $("#f-weight").value=""; $("#f-energy").value=""; $("#f-note").value="";
-  document.querySelectorAll("#ex-container input[type=number]").forEach(i=>i.value="");
-  document.querySelectorAll("[data-vol]").forEach(e=>e.textContent="0 kg");
 }
+
+/* ================= Geschafft-Screen ================= */
+function showDone(entry, prev, prevMaxByEx){
+  const vol = sessionVolume(entry);
+  const arr = loadLog();
+  const total = arr.length;
+  /* Wochen-Streak */
+  const weeks = [...new Set(arr.map(e=>weekKey(e.date)))].sort().reverse();
+  let streak=0, cur=weekKey(todayISO());
+  for(const w of weeks){ if(w===cur){streak++; const d=new Date(cur+"T00:00:00"); d.setDate(d.getDate()-7); cur=d.toISOString().slice(0,10);} else break; }
+
+  let statsHtml = `
+    <div class="d-stat"><span class="k">Session-Volumen</span><span class="v">${Math.round(vol).toLocaleString("de-DE")} kg</span></div>`;
+
+  if(prev){
+    const pvol = sessionVolume(prev);
+    const diff = vol - pvol;
+    const pct  = pvol>0 ? Math.round(diff/pvol*100) : 0;
+    const sign = diff>0 ? "+" : "";
+    const cls  = diff>0 ? "up" : "";
+    statsHtml += `
+    <div class="d-stat"><span class="k">Vs. letzte ${entry.dayName}-Einheit</span>
+      <span class="v ${cls}">${sign}${Math.round(diff).toLocaleString("de-DE")} kg (${sign}${pct}%)</span></div>`;
+    /* verbesserte Übungen zählen */
+    let better = 0;
+    entry.sets.forEach(s=>{
+      const p = prev.sets.find(x=>(x.name||"").trim().toLowerCase()===(s.name||"").trim().toLowerCase());
+      if(p && exVolume(s)>exVolume(p)) better++;
+    });
+    if(better>0){
+      statsHtml += `<div class="d-stat"><span class="k">Übungen gesteigert</span><span class="v up">${better} 📈</span></div>`;
+    }
+  }
+
+  statsHtml += `
+    <div class="d-stat"><span class="k">Workouts gesamt</span><span class="v">${total}</span></div>
+    <div class="d-stat"><span class="k">Wochen-Streak</span><span class="v">${streak} 🔥</span></div>`;
+  $("#d-stats").innerHTML = statsHtml;
+
+  /* PRs: neues Maximalgewicht */
+  const prs = [];
+  entry.sets.forEach(s=>{
+    const k = (s.name||"").trim().toLowerCase();
+    const m = maxKg(s);
+    if(m>0 && m > (prevMaxByEx[k]||0)) prs.push(`${s.name}: ${m} kg`);
+  });
+  if(prs.length){
+    $("#d-pr").style.display = "block";
+    $("#d-pr-lines").innerHTML = prs.slice(0,4).join("<br>");
+    $("#d-emoji").textContent = "🏆";
+  } else {
+    $("#d-pr").style.display = "none";
+    $("#d-emoji").textContent = "💪";
+  }
+
+  $("#d-sub").textContent = `${entry.dayName} · ${fmtDate(entry.date)}`;
+  $("#done-bg").classList.add("show");
+}
+$("#d-close").addEventListener("click",()=>$("#done-bg").classList.remove("show"));
 
 /* ================= History ================= */
 function renderHistory(){
@@ -514,7 +741,7 @@ function renderHistory(){
   $("#st-total").textContent = arr.length;
   const tw = weekKey(todayISO());
   $("#st-week").textContent = arr.filter(e=>weekKey(e.date)===tw).length;
-  const totalVol = arr.reduce((s,e)=>s+e.sets.reduce((x,st)=>x+exVolume(st),0),0);
+  const totalVol = arr.reduce((s,e)=>s+sessionVolume(e),0);
   $("#st-vol").textContent = (totalVol/1000).toLocaleString("de-DE",{maximumFractionDigits:1});
 
   const list = $("#hist-list");
@@ -523,9 +750,9 @@ function renderHistory(){
     return;
   }
   list.innerHTML = arr.map(e=>{
-    let sessionVol = 0;
+    let sv = 0;
     const rows = e.sets.map(s=>{
-      const vol = exVolume(s); sessionVol += vol;
+      const vol = exVolume(s); sv += vol;
       const warm = (s.wkg||s.wwdh) ? `WU ${s.wkg||"–"}×${s.wwdh||"–"} · ` : "";
       const v1 = (s.kg1||s.wdh1) ? `${s.kg1||"–"}×${s.wdh1||"–"}` : "";
       const v2 = (s.kg2||s.wdh2) ? `${s.kg2||"–"}×${s.wdh2||"–"}` : "";
@@ -537,22 +764,28 @@ function renderHistory(){
     return `<div class="hist-item">
       <div class="hist-top">
         <div><div class="hist-day">${e.dayName}</div><div class="hist-date">${fmtDate(e.date)}</div></div>
-        <button class="del" type="button" data-id="${e.id}">Löschen</button>
+        <div class="hist-actions">
+          <button class="h-btn edit" type="button" data-edit="${e.id}">Bearbeiten</button>
+          <button class="h-btn" type="button" data-del="${e.id}">Löschen</button>
+        </div>
       </div>
       ${meta?`<div class="hist-meta">${meta}</div>`:""}
       ${rows}
-      <div class="hist-total"><span>Session-Volumen</span><span>${Math.round(sessionVol).toLocaleString("de-DE")} kg</span></div>
+      <div class="hist-total"><span>Session-Volumen</span><span>${Math.round(sv).toLocaleString("de-DE")} kg</span></div>
       ${e.note?`<div class="hist-note">„${e.note}"</div>`:""}
     </div>`;
   }).join("");
 
-  list.querySelectorAll(".del").forEach(b=>{
+  list.querySelectorAll("[data-edit]").forEach(b=>{
+    b.addEventListener("click",()=>startEdit(b.dataset.edit));
+  });
+  list.querySelectorAll("[data-del]").forEach(b=>{
     b.addEventListener("click", async ()=>{
-      const entry = loadLog().find(e=>e.id==b.dataset.id);
+      const entry = loadLog().find(e=>e.id==b.dataset.del);
       const ok = await askConfirm("Einheit löschen?",
         `${entry?entry.dayName+" vom "+fmtDate(entry.date):"Diese Einheit"} wird dauerhaft gelöscht.`);
       if(!ok) return;
-      saveLog(loadLog().filter(e=>e.id!=b.dataset.id));
+      saveLog(loadLog().filter(e=>e.id!=b.dataset.del));
       renderHistory();
       toast("Einheit gelöscht ✓");
     });
@@ -628,3 +861,4 @@ renderExercises();
 </script>
 </body>
 </html>
+
