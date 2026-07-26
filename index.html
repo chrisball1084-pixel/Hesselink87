@@ -7,6 +7,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="HESSELINK">
 <meta name="theme-color" content="#0a0e1a">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>HESSELINK · Trainingstagebuch</title>
 <style>
   :root{
@@ -401,6 +404,24 @@
 <div class="toast" id="toast">Gespeichert ✓</div>
 
 <script>
+/* ================= Auto-Update ================= */
+/* Bei jeder inhaltlichen Änderung der App diese Nummer erhöhen.
+   Stimmt sie nicht mit der zuletzt geladenen Version überein,
+   wird die Seite einmalig hart neu geladen (Cache umgangen). */
+const APP_VERSION = 7;
+(function ensureLatestVersion(){
+  const seen = parseInt(localStorage.getItem("hesselink_app_version")||"0", 10);
+  if(seen !== APP_VERSION){
+    localStorage.setItem("hesselink_app_version", String(APP_VERSION));
+    if(seen !== 0){ // nicht beim allerersten Start neu laden, nur bei echten Updates
+      const url = new URL(window.location.href);
+      url.searchParams.set("_v", String(APP_VERSION) + "_" + Date.now());
+      window.location.replace(url.toString());
+      return; // Rest des Scripts nicht mehr ausführen, Seite lädt gleich neu
+    }
+  }
+})();
+
 /* ================= Keys & Defaults ================= */
 const TPL_KEY   = "hesselink_templates_v2";
 const LOG_KEY   = "hesselink_log_v2";
