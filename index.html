@@ -67,6 +67,22 @@
   .edit-banner button{background:transparent;border:1px solid #7a5a14;color:var(--warm);
     border-radius:8px;padding:6px 10px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit}
 
+  .progress-bar{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px 12px;
+    background:var(--panel);border:1px solid var(--line);border-radius:12px}
+  .pb-track{flex:1;height:8px;border-radius:5px;background:var(--field);overflow:hidden}
+  .pb-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--good));
+    border-radius:5px;transition:width .3s}
+  .pb-txt{flex:0 0 auto;font-size:11px;font-weight:800;color:var(--muted);white-space:nowrap}
+
+  .resume-banner{display:none;align-items:center;justify-content:space-between;gap:10px;
+    background:linear-gradient(90deg,#0e2036,#0a1626);border:1px solid var(--blue-deep);
+    border-radius:12px;padding:12px 14px;margin-bottom:14px}
+  .resume-banner.show{display:flex}
+  .resume-banner .rb-txt{font-size:13px;font-weight:700;color:var(--blue-bright)}
+  .resume-banner .rb-txt small{display:block;color:var(--muted);font-weight:600;font-size:11px;margin-top:2px}
+  .resume-banner button{flex:0 0 auto;background:var(--blue);color:#fff;border:none;border-radius:9px;
+    padding:9px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit}
+
   .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;
     padding:14px;margin-bottom:14px}
   .card-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
@@ -289,6 +305,11 @@
     <button id="edit-cancel" type="button">Abbrechen</button>
   </div>
 
+  <div class="progress-bar" id="progress-bar" style="display:none">
+    <div class="pb-track"><div class="pb-fill" id="pb-fill"></div></div>
+    <span class="pb-txt" id="pb-txt">0 von 5 Übungen abgeschlossen</span>
+  </div>
+
   <div class="picker" id="day-picker">
     <button class="day-btn active" data-day="1">
       <div class="d-lbl">Einheit</div><div class="d-name">DAY 1</div>
@@ -333,6 +354,10 @@
 
 <!-- ============ HISTORY VIEW ============ -->
 <div class="view" id="view-history">
+  <div class="resume-banner" id="resume-banner">
+    <div class="rb-txt">⏱ Training läuft noch<small id="resume-sub"></small></div>
+    <button id="resume-btn" type="button">Zurück</button>
+  </div>
   <div class="stat-row">
     <div class="stat"><div class="s-num" id="st-total">0</div><div class="s-lbl">Einheiten</div></div>
     <div class="stat"><div class="s-num" id="st-week">0</div><div class="s-lbl">Diese Woche</div></div>
@@ -359,7 +384,7 @@
 </div>
 
 <div class="save-bar" id="save-bar">
-  <button class="btn btn-primary" id="btn-save" type="button">Einheit speichern</button>
+  <button class="btn btn-primary" id="btn-save" type="button">Training beenden</button>
   <button class="btn btn-ghost" id="btn-clear" type="button">Reset</button>
 </div>
 
@@ -408,7 +433,7 @@
 /* Bei jeder inhaltlichen Änderung der App diese Nummer erhöhen.
    Stimmt sie nicht mit der zuletzt geladenen Version überein,
    wird die Seite einmalig hart neu geladen (Cache umgangen). */
-const APP_VERSION = 7;
+const APP_VERSION = 8;
 (function ensureLatestVersion(){
   const seen = parseInt(localStorage.getItem("hesselink_app_version")||"0", 10);
   if(seen !== APP_VERSION){
@@ -635,6 +660,7 @@ function renderExercises(){
     if(done){ document.querySelector(`.ex[data-i="${i}"]`).classList.add("done"); setDoneLabel(i,true); }
     updateVolume(i);
   });
+  updateProgress();
 
   /* Meta aus Entwurf */
   if(!editing){
@@ -726,6 +752,7 @@ function bindExerciseEvents(){
       if(nowDone){ startPauseFor(i); }
       else if(timerExIdx===i){ tStop(); }
       saveDraftNow();
+      updateProgress();
     });
   });
   document.querySelectorAll(".pause-hint .ph-cancel").forEach(b=>{
@@ -767,6 +794,42 @@ function updateVolume(i){
   if(el) el.textContent = v>0 ? `${Math.round(v).toLocaleString("de-DE")} kg` : "0 kg";
 }
 
+/* ---------- Fortschrittsbalken (Training-Tab) ---------- */
+function updateProgress(){
+  const bar = $("#progress-bar");
+  if(editing){ bar.style.display = "none"; return; } // im Bearbeitungsmodus ausblenden
+  const total = document.querySelectorAll("#ex-container .ex").length;
+  const done  = document.querySelectorAll("#ex-container .ex.done").length;
+  if(total===0){ bar.style.display="none"; return; }
+  bar.style.display = "flex";
+  $("#pb-fill").style.width = Math.round(done/total*100) + "%";
+  $("#pb-txt").textContent = `${done} von ${total} Übungen abgeschlossen`;
+}
+
+/* ---------- "Training läuft noch"-Banner im Verlauf ---------- */
+function updateResumeBanner(){
+  const banner = $("#resume-banner");
+  if(editing){ banner.classList.remove("show"); return; }
+  const drafts = loadDrafts();
+  const d = drafts[currentDay];
+  if(!d){ banner.classList.remove("show"); return; }
+  const total = templates[currentDay].length;
+  const done  = (d.sets||[]).filter(s=>s && s.done).length;
+  const hasAnyValue = (d.sets||[]).some(s=>s && (s.wkg||s.wwdh||s.kg1||s.wdh1||s.kg2||s.wdh2||s.kg3||s.wdh3))
+    || d.weight || d.energy || d.note;
+  if(!hasAnyValue){ banner.classList.remove("show"); return; }
+  $("#resume-sub").textContent = `${PLANNAME()} · ${done}/${total} Übungen abgeschlossen`;
+  banner.classList.add("show");
+}
+$("#resume-btn").addEventListener("click",()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+  document.querySelector('.tab[data-view="log"]').classList.add("active");
+  $("#view-log").classList.add("active");
+  $("#save-bar").style.display = "flex";
+  $("#timer-fab-wrap").style.display = "flex";
+});
+
 /* ================= Meta-Felder -> Entwurf ================= */
 ["f-date","f-weight","f-energy","f-note"].forEach(id=>{
   document.getElementById(id).addEventListener("input", saveDraftNow);
@@ -786,13 +849,14 @@ document.querySelectorAll(".day-btn").forEach(b=>{
 });
 document.querySelectorAll(".tab").forEach(t=>{
   t.addEventListener("click",()=>{
+    saveDraftNow(); // Sicherheitsnetz: Meta-Felder (u.a. Energie/Schlaf) explizit sichern, bevor der Tab wechselt
     document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
     document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
     t.classList.add("active");
     $("#view-"+t.dataset.view).classList.add("active");
     $("#save-bar").style.display = t.dataset.view==="log" ? "flex" : "none";
     $("#timer-fab-wrap").style.display = t.dataset.view==="log" ? "flex" : "none";
-    if(t.dataset.view==="history") renderHistory();
+    if(t.dataset.view==="history"){ renderHistory(); updateResumeBanner(); }
   });
 });
 
@@ -836,14 +900,14 @@ function startEdit(id){
 function stopEdit(){
   editing = null;
   $("#edit-banner").classList.remove("show");
-  $("#btn-save").textContent = "Einheit speichern";
+  $("#btn-save").textContent = "Training beenden";
   document.querySelectorAll(".day-btn").forEach(x=>x.style.opacity="1");
   renderExercises(); // lädt Entwurf oder Vorbefüllung des aktuellen Tages
 }
 $("#edit-cancel").addEventListener("click",stopEdit);
 
 /* ================= Save session ================= */
-$("#btn-save").addEventListener("click",()=>{
+$("#btn-save").addEventListener("click", async ()=>{
   const src = exerciseSource();
   const sets = src.map((ex,i)=>Object.assign(
     {name:(editing?ex.name:ex.n)||("Übung "+(i+1)), goal:ex.goal||""}, readSets(i)));
@@ -860,6 +924,16 @@ $("#btn-save").addEventListener("click",()=>{
     toast("Änderungen gespeichert ✓");
     return;
   }
+
+  /* Sicherheitsabfrage gegen versehentliches Tippen */
+  const doneCount = document.querySelectorAll("#ex-container .ex.done").length;
+  const totalCount = src.length;
+  const ok = await askConfirm(
+    "Training beenden?",
+    `${PLANNAME()} wird mit ${doneCount} von ${totalCount} abgeschlossenen Übungen gespeichert. Das lässt sich danach im Verlauf noch bearbeiten.`,
+    "Beenden & speichern"
+  );
+  if(!ok) return;
 
   const entry = {
     id: Date.now(),
